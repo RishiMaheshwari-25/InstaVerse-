@@ -3,7 +3,7 @@
   controls
   width="700">
 </video>
-
+Live Link="https://instaverse-2-iz7r.onrender.com"
 # InstaVerse
 
 InstaVerse is a full-stack social media application inspired by modern photo-sharing platforms. Users can create accounts, log in securely, share posts, like and save content, view their feed, manage profiles, and connect with other users through follow requests.
