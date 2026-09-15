@@ -1,5 +1,7 @@
+const path=require("path")
 const express=require("express");
 const app=express();
+
 const cookieParser=require("cookie-parser");
 const cors=require("cors")
 
@@ -19,4 +21,9 @@ const userRouter=require("./routes/user.route")
 app.use("/api/auth",authRouter);
 app.use("/api/posts",postRouter)
 app.use("/api/users",userRouter)
+
+app.use(express.static(path.join(__dirname, "../public")));
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
+});
 module.exports=app;
