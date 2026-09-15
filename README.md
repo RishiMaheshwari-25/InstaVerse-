@@ -1,3 +1,9 @@
+<video 
+  src="https://github.com/user-attachments/assets/02e765ec-625d-409e-82b2-ed5771718539"
+  controls
+  width="700">
+</video>
+
 # InstaVerse
 
 InstaVerse is a full-stack social media application inspired by modern photo-sharing platforms. Users can create accounts, log in securely, share posts, like and save content, view their feed, manage profiles, and connect with other users through follow requests.
