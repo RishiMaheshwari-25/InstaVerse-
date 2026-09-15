@@ -23,3 +23,27 @@ export async function unlikePost(postId){
     return response.data
 
 }
+export async function deletePost(postId){
+    const response=await api.delete("/"+postId)
+    return response.data
+}
+export async function getComments(postId){
+    const response=await api.get(`/${postId}/comments`)
+    return response.data
+}
+export async function addComment(postId,text){
+    const response=await api.post(`/${postId}/comments`,{text})
+    return response.data
+}
+export async function savePost(postId){
+    const response=await api.post(`/save/${postId}`)
+    return response.data
+}
+export async function unsavePost(postId){
+    const response=await api.delete(`/save/${postId}`)
+    return response.data
+}
+export async function getSavedPosts(){
+    const response=await api.get("/saved")
+    return response.data
+}

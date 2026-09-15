@@ -6,7 +6,8 @@
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 24px;
 
   position: sticky;
   top: 0;
@@ -21,8 +22,10 @@
   box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.25);
 
-  // Instagram logo/text
-  p {
+  .brand {
+    border: 0;
+    padding: 0;
+    background: transparent;
     margin: 0;
 
     font-size: 28px;
@@ -55,6 +58,8 @@
         drop-shadow(0 0 8px rgba(214, 41, 118, 0.35));
     }
   }
+
+  .nav-actions { margin-left: auto; display: flex; align-items: center; }
 
   // New Post button
   .primary-button {
@@ -109,6 +114,8 @@
         0 4px 12px rgba(0, 149, 246, 0.25);
     }
   }
+
+  .primary-button span { font-size: 18px; font-weight: 400; line-height: 0; }
 }
 
 
@@ -121,7 +128,7 @@
     height: 64px;
     padding: 0 18px;
 
-    p {
+    .brand {
       font-size: 24px;
     }
 

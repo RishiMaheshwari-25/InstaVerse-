@@ -4,6 +4,8 @@ import Login from "./features/auth/pages/login"
 import Register from "./features/auth/pages/Register"
 import Feed from "./features/post/pages/Feed"
 import CreatePost from "./features/post/pages/CreatePost";
+import Profile from "./features/post/pages/Profile";
+import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 // function AppRoutes(){
 //     return <BrowserRouter>
 //     <Routes>
@@ -23,11 +25,15 @@ export const router=createBrowserRouter([{
 },
 {
     path:"/",
-    element:<Feed/>
+    element:<ProtectedRoute><Feed/></ProtectedRoute>
 },
 {
     path:"/create-post",
-    element:<CreatePost/>
+    element:<ProtectedRoute><CreatePost/></ProtectedRoute>
+},
+{
+    path:"/profile",
+    element:<ProtectedRoute><Profile/></ProtectedRoute>
 }]
 )
 export default  router;

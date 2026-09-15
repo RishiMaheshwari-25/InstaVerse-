@@ -1,7 +1,52 @@
-import React from 'react'
-import { usePost } from '../hook/usePost'
+import React, { useEffect, useState } from 'react'
+import { addComment, getComments, savePost, unsavePost } from '../services/post.api'
+import "../style/engagement.scss"
 
 const Post = ({user,post,loading,handleLike,handleunLike}) => {
+    const [showComments,setShowComments]=useState(false)
+    const [comments,setComments]=useState([])
+    const [commentText,setCommentText]=useState("")
+    const [isCommentLoading,setIsCommentLoading]=useState(false)
+    const [isSaved,setIsSaved]=useState(Boolean(post.isSaved))
+    const [notice,setNotice]=useState("")
+
+    useEffect(()=>setIsSaved(Boolean(post.isSaved)),[post.isSaved])
+
+    const toggleComments=async()=>{
+        if(showComments){ setShowComments(false); return; }
+        setIsCommentLoading(true); setNotice("")
+        try { const data=await getComments(post._id); setComments(data.comments); setShowComments(true); }
+        catch { setNotice("Comments could not be loaded."); }
+        finally { setIsCommentLoading(false); }
+    }
+    const submitComment=async(event)=>{
+        event.preventDefault()
+        if(!commentText.trim()) return
+        try { const data=await addComment(post._id,commentText); setComments((current)=>[data.comment,...current]); setCommentText(""); }
+        catch { setNotice("Your comment could not be posted."); }
+    }
+    const toggleSave=async()=>{
+        const previous=isSaved; setIsSaved(!previous); setNotice("")
+        try { if(previous) await unsavePost(post._id); else await savePost(post._id); }
+        catch { setIsSaved(previous); setNotice("This post could not be saved."); }
+    }
+    const sharePost=async()=>{
+        const shareData={title:"InstaVerse",text:post.caption || "A post from InstaVerse",url:window.location.href}
+        try {
+            if(navigator.share) await navigator.share(shareData)
+            else { await navigator.clipboard.writeText(window.location.href); setNotice("Link copied to clipboard."); }
+        } catch(err) { if(err.name!=="AbortError") setNotice("Sharing is not available on this device."); }
+    }
+    const handleActions=(event)=>{
+        const button=event.target.closest("button")
+        if(!button) return
+        event.stopPropagation()
+        const action=[...event.currentTarget.querySelectorAll("button")].indexOf(button)
+        if(action===0) post.isLiked?handleunLike(post._id):handleLike(post._id)
+        if(action===1) toggleComments()
+        if(action===2) sharePost()
+        if(action===3) toggleSave()
+    }
     
   return (
     <div className="post">
@@ -14,7 +59,7 @@ const Post = ({user,post,loading,handleLike,handleunLike}) => {
                     <p>{user.username}</p>
                 </div>
                 <img src={post.img_url} alt=""  />
-                <div className="icons">
+                <div className={`icons ${isSaved ? "post-saved" : ""}`} onClickCapture={handleActions}>
                     <div className="left">
                         <button><svg  className={post.isLiked?"like":""}
                         onClick={()=>{post.isLiked?handleunLike(post._id):handleLike(post._id)}}
@@ -28,6 +73,8 @@ const Post = ({user,post,loading,handleLike,handleunLike}) => {
                 </div>
                 <div className="bottom">
                     <p className="caption">{post.caption}</p>
+                    <p className="engagement-note">{comments.length || post.commentCount || 0} comments {notice && `- ${notice}`}</p>
+                    {showComments && <div className="comments-panel">{isCommentLoading ? <p>Loading comments...</p> : <><form onSubmit={submitComment}><input value={commentText} onChange={(event)=>setCommentText(event.target.value)} maxLength="300" placeholder="Write a comment..." /><button type="submit">Post</button></form><div className="comment-list">{comments.length ? comments.map((comment)=><p key={comment._id}><strong>@{comment.user}</strong> {comment.text}</p>) : <p className="no-comments">Be the first to leave a thought.</p>}</div></>}</div>}
                 </div>
                 </div>
   )

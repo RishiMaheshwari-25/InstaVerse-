@@ -5,6 +5,11 @@ export const AuthContext = createContext();
 export function AuthProvider({children}){
     const [user,setUser]=useState(null);
     const [loading,setLoading]=useState(false);
+    const [authReady,setAuthReady]=useState(false);
+    useEffect(()=>{
+        // Restore the user after a browser refresh when the auth cookie is still valid.
+        getMe().then((response)=>setUser(response.user)).catch(()=>setUser(null)).finally(()=>setAuthReady(true));
+    },[])
     const handleLogin=async(username,password)=>{
         setLoading(true);
         try{
@@ -13,6 +18,7 @@ export function AuthProvider({children}){
             return response
         }catch(err){
             console.log(err)
+            throw err
         }finally{
             setLoading(false)
         }
@@ -31,7 +37,7 @@ export function AuthProvider({children}){
         setLoading(false)
     }}
     return(
-        <AuthContext.Provider value={{user,loading,handleLogin,handleRegister}}>
+        <AuthContext.Provider value={{user,setUser,loading,authReady,handleLogin,handleRegister}}>
             {children}
 
         </AuthContext.Provider>
