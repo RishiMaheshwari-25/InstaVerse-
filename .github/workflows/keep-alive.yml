@@ -1,0 +1,14 @@
+name: Keep Backend Alive
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping deployed server
+        run: curl -I https://instaverse-2-iz7r.onrender.com/
