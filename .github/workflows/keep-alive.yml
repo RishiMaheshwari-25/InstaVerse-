@@ -11,4 +11,4 @@ jobs:
 
     steps:
       - name: Ping deployed server
-        run: curl -I https://instaverse-2-iz7r.onrender.com/
+        run: curl -I https://instaverse-3-ka17.onrender.com/profile
