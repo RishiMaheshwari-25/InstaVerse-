@@ -1,8 +1,5 @@
-<video 
-  src="https://github.com/user-attachments/assets/02e765ec-625d-409e-82b2-ed5771718539"
-  controls
-  width="700">
-</video>
+Demo video
+https://github.com/user-attachments/assets/71165d56-3596-458a-a1d6-52587d528dbd
 Live Link="https://instaverse-2-iz7r.onrender.com"
 # InstaVerse
 
