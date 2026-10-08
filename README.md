@@ -1,5 +1,7 @@
-Demo video
+## 🎥 Project Demo
+
 https://github.com/user-attachments/assets/71165d56-3596-458a-a1d6-52587d528dbd
+
 Live Link="https://instaverse-2-iz7r.onrender.com"
 # InstaVerse
 
